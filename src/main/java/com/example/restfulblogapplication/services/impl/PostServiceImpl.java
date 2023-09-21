@@ -1,85 +1,61 @@
-package com.springboot.blog.service.impl;
+package com.example.restfulblogapplication.services.impl;
 
-import com.springboot.blog.entity.Post;
-import com.springboot.blog.exception.ResourceNotFoundException;
-import com.springboot.blog.payload.PostDto;
-import com.springboot.blog.repository.PostRepository;
-import com.springboot.blog.service.PostService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.restfulblogapplication.dtos.PostDto;
+import com.example.restfulblogapplication.entities.Post;
+import com.example.restfulblogapplication.exceptions.PostNotFoundException;
+import com.example.restfulblogapplication.mappers.PostMapper;
+import com.example.restfulblogapplication.repositories.PostRepository;
+import com.example.restfulblogapplication.services.PostService;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
+@RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
-    private PostRepository postRepository;
+  private static final String POST_NOT_FOUND_MESSAGE = "Post not found with id: ";
 
-    public PostServiceImpl(PostRepository postRepository) {
-        this.postRepository = postRepository;
-    }
+  private final PostRepository postRepository;
+  private final PostMapper postMapper;
 
-    @Override
-    public PostDto createPost(PostDto postDto) {
+  @Override
+  public PostDto createPost(PostDto postDto) {
+    Post post = postMapper.toModel(postDto);
+    postRepository.save(post);
+    return postMapper.toDto(post);
+  }
 
-        // convert DTO to entity
-        Post post = mapToEntity(postDto);
-        Post newPost = postRepository.save(post);
+  @Override
+  public List<PostDto> getAllPosts() {
+    List<Post> posts = postRepository.findAll();
+    return posts.stream().map(postMapper::toDto).toList();
+  }
 
-        // convert entity to DTO
-        PostDto postResponse = mapToDTO(newPost);
-        return postResponse;
-    }
+  @Override
+  public PostDto getPostById(Long id) {
+    Post post = postRepository.findById(id)
+        .orElseThrow(() -> new PostNotFoundException(POST_NOT_FOUND_MESSAGE + id));
+    return postMapper.toDto(post);
+  }
 
-    @Override
-    public List<PostDto> getAllPosts() {
-        List<Post> posts = postRepository.findAll();
-        return posts.stream().map(post -> mapToDTO(post)).collect(Collectors.toList());
-    }
+  @Override
+  public PostDto updatePost(PostDto postDto, Long id) {
+    Post post = postRepository.findById(id)
+        .orElseThrow(() -> new PostNotFoundException(POST_NOT_FOUND_MESSAGE + id));
 
-    @Override
-    public PostDto getPostById(long id) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
-        return mapToDTO(post);
-    }
+    post.setTitle(postDto.title());
+    post.setDescription(postDto.description());
+    post.setContent(postDto.content());
 
-    @Override
-    public PostDto updatePost(PostDto postDto, long id) {
-        // get post by id from the database
-        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
+    Post updatedPost = postRepository.save(post);
+    return postMapper.toDto(updatedPost);
+  }
 
-        post.setTitle(postDto.getTitle());
-        post.setDescription(postDto.getDescription());
-        post.setContent(postDto.getContent());
-
-        Post updatedPost = postRepository.save(post);
-        return mapToDTO(updatedPost);
-    }
-
-    @Override
-    public void deletePostById(long id) {
-        // get post by id from the database
-        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
-        postRepository.delete(post);
-    }
-
-    // convert Entity into DTO
-    private PostDto mapToDTO(Post post){
-        PostDto postDto = new PostDto();
-        postDto.setId(post.getId());
-        postDto.setTitle(post.getTitle());
-        postDto.setDescription(post.getDescription());
-        postDto.setContent(post.getContent());
-        return postDto;
-    }
-
-    // convert DTO to entity
-    private Post mapToEntity(PostDto postDto){
-        Post post = new Post();
-        post.setTitle(postDto.getTitle());
-        post.setDescription(postDto.getDescription());
-        post.setContent(postDto.getContent());
-        return post;
-    }
+  @Override
+  public void deletePostById(Long id) {
+    Post post = postRepository.findById(id)
+        .orElseThrow(() -> new PostNotFoundException(POST_NOT_FOUND_MESSAGE + id));
+    postRepository.delete(post);
+  }
 }

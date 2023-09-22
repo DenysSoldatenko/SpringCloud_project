@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -28,8 +29,13 @@ public class PostController {
   }
 
   @GetMapping
-  public List<PostDto> getAllPosts() {
-    return postService.getAllPosts();
+  public List<PostDto> getAllPosts(
+      @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+      @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
+      @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy,
+      @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
+  ) {
+    return postService.getAllPostPaginated(pageNo, pageSize, sortBy, sortDir);
   }
 
   @GetMapping("/{id}")
@@ -40,7 +46,7 @@ public class PostController {
   @PutMapping("/{id}")
   public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto,
                                             @PathVariable(name = "id") Long id) {
-    PostDto postResponse = postService.updatePost(postDto, id);
+    PostDto postResponse = postService.updatePostById(postDto, id);
     return new ResponseEntity<>(postResponse, HttpStatus.OK);
   }
 

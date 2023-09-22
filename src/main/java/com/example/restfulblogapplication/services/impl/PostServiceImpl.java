@@ -8,6 +8,9 @@ import com.example.restfulblogapplication.repositories.PostRepository;
 import com.example.restfulblogapplication.services.PostService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,9 +30,15 @@ public class PostServiceImpl implements PostService {
   }
 
   @Override
-  public List<PostDto> getAllPosts() {
-    List<Post> posts = postRepository.findAll();
-    return posts.stream().map(postMapper::toDto).toList();
+  public List<PostDto> getAllPostPaginated(int pageNo, int pageSize,
+                                           String sortBy, String sortDir) {
+    PageRequest pageRequest = PageRequest.of(pageNo, pageSize,
+        Sort.Direction.fromString(sortDir), sortBy);
+    Page<Post> pagedResult = postRepository.findAll(pageRequest);
+
+    return pagedResult.hasContent()
+      ? pagedResult.getContent().stream().map(postMapper::toDto).toList()
+      : List.of();
   }
 
   @Override
@@ -40,7 +49,7 @@ public class PostServiceImpl implements PostService {
   }
 
   @Override
-  public PostDto updatePost(PostDto postDto, Long id) {
+  public PostDto updatePostById(PostDto postDto, Long id) {
     Post post = postRepository.findById(id)
         .orElseThrow(() -> new PostNotFoundException(POST_NOT_FOUND_MESSAGE + id));
 

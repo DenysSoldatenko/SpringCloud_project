@@ -1,5 +1,7 @@
 package com.example.restfulblogapplication.services.impl;
 
+import static com.example.restfulblogapplication.utils.ApplicationConstant.POST_NOT_FOUND_MESSAGE;
+
 import com.example.restfulblogapplication.dtos.PostDto;
 import com.example.restfulblogapplication.entities.Post;
 import com.example.restfulblogapplication.exceptions.PostNotFoundException;
@@ -16,8 +18,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
-
-  private static final String POST_NOT_FOUND_MESSAGE = "Post not found with id: ";
 
   private final PostRepository postRepository;
   private final PostMapper postMapper;

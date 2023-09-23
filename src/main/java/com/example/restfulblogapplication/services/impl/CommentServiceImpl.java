@@ -1,5 +1,9 @@
 package com.example.restfulblogapplication.services.impl;
 
+import static com.example.restfulblogapplication.utils.ApplicationConstant.COMMENT_DOES_NOT_BELONG_MESSAGE;
+import static com.example.restfulblogapplication.utils.ApplicationConstant.COMMENT_NOT_FOUND_MESSAGE;
+import static com.example.restfulblogapplication.utils.ApplicationConstant.POST_NOT_FOUND_MESSAGE;
+
 import com.example.restfulblogapplication.dtos.CommentDto;
 import com.example.restfulblogapplication.entities.Comment;
 import com.example.restfulblogapplication.entities.Post;
@@ -17,10 +21,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
-
-  private static final String POST_NOT_FOUND_MESSAGE = "Post not found with id: ";
-  private static final String COMMENT_NOT_FOUND_MESSAGE = "Comment not found with id: ";
-  private static final String COMMENT_DOES_NOT_BELONG_MESSAGE = "Comment does not belong to post";
 
   private final CommentRepository commentRepository;
   private final PostRepository postRepository;
@@ -46,7 +46,6 @@ public class CommentServiceImpl implements CommentService {
   @Override
   public CommentDto getCommentByPostId(Long postId, Long commentId) {
     Comment comment = validateCommentBelongsToPost(postId, commentId);
-
     return commentMapper.toDto(comment);
   }
 
@@ -65,7 +64,6 @@ public class CommentServiceImpl implements CommentService {
   @Override
   public void deleteCommentByPostId(Long postId, Long commentId) {
     Comment comment = validateCommentBelongsToPost(postId, commentId);
-
     commentRepository.delete(comment);
   }
 

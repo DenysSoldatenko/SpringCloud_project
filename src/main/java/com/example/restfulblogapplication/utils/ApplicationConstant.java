@@ -2,6 +2,9 @@ package com.example.restfulblogapplication.utils;
 
 import lombok.experimental.UtilityClass;
 
+/**
+ * Utility class for holding application constants.
+ */
 @UtilityClass
 public class ApplicationConstant {
 

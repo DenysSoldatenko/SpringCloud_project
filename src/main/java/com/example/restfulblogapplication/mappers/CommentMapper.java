@@ -5,6 +5,10 @@ import com.example.restfulblogapplication.entities.Comment;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+/**
+ * Mapper interface
+ * for converting between {@link Comment} entities and {@link CommentDto} DTOs.
+ */
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
 

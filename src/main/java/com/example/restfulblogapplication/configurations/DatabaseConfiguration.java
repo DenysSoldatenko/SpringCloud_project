@@ -12,6 +12,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuration class for initializing
+ * and populating the database with sample data.
+ */
 @Configuration
 @RequiredArgsConstructor
 public class DatabaseConfiguration {
@@ -21,6 +25,11 @@ public class DatabaseConfiguration {
 
   private final PostRepository postRepository;
 
+  /**
+   * Initialize and populate the database with sample data.
+   *
+   * @return CommandLineRunner for database initialization.
+   */
   @Bean
   public CommandLineRunner initData() {
     return args -> {

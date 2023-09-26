@@ -10,6 +10,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+/**
+ * Entity class representing a comment associated with a blog post.
+ */
 @Data
 @Entity
 @Table(name = "comments")

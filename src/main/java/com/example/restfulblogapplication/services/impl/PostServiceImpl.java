@@ -15,6 +15,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service implementation for managing blog posts in the application.
+ */
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {

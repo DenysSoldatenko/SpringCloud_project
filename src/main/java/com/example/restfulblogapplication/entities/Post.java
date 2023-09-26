@@ -12,6 +12,9 @@ import jakarta.persistence.Table;
 import java.util.List;
 import lombok.Data;
 
+/**
+ * Entity class representing a blog post.
+ */
 @Data
 @Entity
 @Table(name = "posts")

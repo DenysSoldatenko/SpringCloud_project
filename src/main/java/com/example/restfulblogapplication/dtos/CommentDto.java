@@ -4,6 +4,9 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+/**
+ * Data Transfer Object (DTO) representing a comment.
+ */
 public record CommentDto(
 
         Long id,

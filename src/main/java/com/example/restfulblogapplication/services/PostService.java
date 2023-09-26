@@ -3,6 +3,9 @@ package com.example.restfulblogapplication.services;
 import com.example.restfulblogapplication.dtos.PostDto;
 import java.util.List;
 
+/**
+ * Service interface for managing blog posts in the application.
+ */
 public interface PostService {
   PostDto createPost(PostDto postDto);
 

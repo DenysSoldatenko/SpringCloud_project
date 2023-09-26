@@ -8,9 +8,20 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 
+/**
+ * Global exception handler for handling specific exceptions
+ * and providing consistent error responses.
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+  /**
+   * Handles the exception when a {@link PostNotFoundException} occurs.
+   *
+   * @param exception the exception that was thrown.
+   * @param webRequest the web request where the exception occurred.
+   * @return a ResponseEntity containing details of the error response.
+   */
   @ExceptionHandler(PostNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ResponseEntity<ErrorDetails> handlePostNotFoundException(
@@ -28,6 +39,13 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
   }
 
+  /**
+   * Handles the exception when a {@link CommentNotFoundException} occurs.
+   *
+   * @param exception the exception that was thrown.
+   * @param webRequest the web request where the exception occurred.
+   * @return a ResponseEntity containing details of the error response.
+   */
   @ExceptionHandler(CommentNotFoundException.class)
   public ResponseEntity<ErrorDetails> handleCommentNotFoundException(
       CommentNotFoundException exception, WebRequest webRequest
@@ -42,6 +60,13 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
   }
 
+  /**
+   * Handles the exception when a {@link BlogApiException} occurs.
+   *
+   * @param exception the exception that was thrown.
+   * @param webRequest the web request where the exception occurred.
+   * @return a ResponseEntity containing details of the error response.
+   */
   @ExceptionHandler(BlogApiException.class)
   public ResponseEntity<ErrorDetails> handleBlogApiException(
       BlogApiException exception, WebRequest webRequest
@@ -56,7 +81,13 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
   }
 
-  // global exceptions
+  /**
+   * Handles global exceptions that are not explicitly caught by other methods.
+   *
+   * @param exception the exception that was thrown.
+   * @param webRequest the web request where the exception occurred.
+   * @return a ResponseEntity containing details of the error response.
+   */
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ErrorDetails> handleGlobalException(
       Exception exception, WebRequest webRequest

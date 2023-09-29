@@ -9,18 +9,18 @@ import jakarta.validation.constraints.Size;
  */
 public record CommentDto(
 
-        Long id,
+    Long id,
 
-        @NotEmpty(message = "Name should not be null or empty!")
-        String name,
+    @NotEmpty(message = "Name should not be null or empty!")
+    String name,
 
-        @NotEmpty(message = "Email should not be null or empty!")
-        @Email
-        String email,
+    @NotEmpty(message = "Email should not be null or invalid!")
+    @Email(message = "Email should not be empty!")
+    String email,
 
-        @NotEmpty
-        @Size(min = 10, message = "Comment body should not be minimum 10 characters!")
-        String body
+    @NotEmpty(message = "Comment should not be empty!")
+    @Size(min = 10, message = "Comment body should not be minimum 10 characters!")
+    String body
 ) {
 }
 

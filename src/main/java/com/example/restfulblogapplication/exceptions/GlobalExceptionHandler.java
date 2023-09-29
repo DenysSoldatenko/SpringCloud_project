@@ -1,8 +1,11 @@
 package com.example.restfulblogapplication.exceptions;
 
 import java.util.Date;
+import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -18,7 +21,7 @@ public class GlobalExceptionHandler {
   /**
    * Handles the exception when a {@link PostNotFoundException} occurs.
    *
-   * @param exception the exception that was thrown.
+   * @param exception  the exception that was thrown.
    * @param webRequest the web request where the exception occurred.
    * @return a ResponseEntity containing details of the error response.
    */
@@ -42,7 +45,7 @@ public class GlobalExceptionHandler {
   /**
    * Handles the exception when a {@link CommentNotFoundException} occurs.
    *
-   * @param exception the exception that was thrown.
+   * @param exception  the exception that was thrown.
    * @param webRequest the web request where the exception occurred.
    * @return a ResponseEntity containing details of the error response.
    */
@@ -63,7 +66,7 @@ public class GlobalExceptionHandler {
   /**
    * Handles the exception when a {@link BlogApiException} occurs.
    *
-   * @param exception the exception that was thrown.
+   * @param exception  the exception that was thrown.
    * @param webRequest the web request where the exception occurred.
    * @return a ResponseEntity containing details of the error response.
    */
@@ -84,7 +87,7 @@ public class GlobalExceptionHandler {
   /**
    * Handles global exceptions that are not explicitly caught by other methods.
    *
-   * @param exception the exception that was thrown.
+   * @param exception  the exception that was thrown.
    * @param webRequest the web request where the exception occurred.
    * @return a ResponseEntity containing details of the error response.
    */
@@ -100,5 +103,33 @@ public class GlobalExceptionHandler {
         webRequest.getDescription(false).substring(4)
     );
     return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  /**
+   * Handles validation exceptions that occur due to method argument validation failures.
+   *
+   * @param exception  the MethodArgumentNotValidException that was thrown.
+   * @param webRequest the web request where the exception occurred.
+   * @return a ResponseEntity containing details of the error response.
+   */
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<ErrorDetails> handleMethodArgumentNotValidException(
+      MethodArgumentNotValidException exception, WebRequest webRequest
+  ) {
+
+    String errorMessage = exception.getBindingResult().getFieldErrors().stream()
+        .map(FieldError::getDefaultMessage)
+        .collect(Collectors.joining(", "));
+
+
+    ErrorDetails errorDetails = new ErrorDetails(
+        new Date(),
+        String.valueOf(HttpStatus.BAD_REQUEST.value()),
+        HttpStatus.BAD_REQUEST.getReasonPhrase(),
+        errorMessage,
+        webRequest.getDescription(false).substring(4)
+    );
+
+    return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
   }
 }

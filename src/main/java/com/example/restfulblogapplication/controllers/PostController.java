@@ -2,6 +2,7 @@ package com.example.restfulblogapplication.controllers;
 
 import com.example.restfulblogapplication.dtos.PostDto;
 import com.example.restfulblogapplication.services.PostService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,7 +28,7 @@ public class PostController {
   private final PostService postService;
 
   @PostMapping
-  public ResponseEntity<PostDto> createPost(@RequestBody PostDto postDto) {
+  public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto) {
     return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
   }
 
@@ -47,7 +48,7 @@ public class PostController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto,
+  public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto,
                                             @PathVariable(name = "id") Long id) {
     PostDto postResponse = postService.updatePostById(postDto, id);
     return new ResponseEntity<>(postResponse, HttpStatus.OK);

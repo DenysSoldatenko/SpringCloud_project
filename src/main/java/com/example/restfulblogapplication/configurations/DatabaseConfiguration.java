@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
  * Configuration class for initializing
  * and populating the database with sample data.
  */
-@Configuration
+//@Configuration
 @RequiredArgsConstructor
 public class DatabaseConfiguration {
   private static final int NUMBER_OF_POSTS = 100;

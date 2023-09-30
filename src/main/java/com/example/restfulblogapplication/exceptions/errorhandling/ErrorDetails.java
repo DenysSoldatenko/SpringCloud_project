@@ -1,4 +1,4 @@
-package com.example.restfulblogapplication.exceptions;
+package com.example.restfulblogapplication.exceptions.errorhandling;
 
 import java.util.Date;
 

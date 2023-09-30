@@ -1,5 +1,9 @@
-package com.example.restfulblogapplication.exceptions;
+package com.example.restfulblogapplication.exceptions.errorhandling;
 
+import com.example.restfulblogapplication.exceptions.BlogApiException;
+import com.example.restfulblogapplication.exceptions.CommentNotFoundException;
+import com.example.restfulblogapplication.exceptions.ConflictException;
+import com.example.restfulblogapplication.exceptions.PostNotFoundException;
 import java.util.Date;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
@@ -82,6 +86,27 @@ public class GlobalExceptionHandler {
         webRequest.getDescription(false).substring(4)
     );
     return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+  }
+
+  /**
+   * Handles the exception when a {@link ConflictException} occurs.
+   *
+   * @param exception  the exception that was thrown.
+   * @param webRequest the web request where the exception occurred.
+   * @return a ResponseEntity containing details of the error response.
+   */
+  @ExceptionHandler(ConflictException.class)
+  public ResponseEntity<ErrorDetails> handleConflictException(
+      ConflictException exception, WebRequest webRequest
+  ) {
+    ErrorDetails errorDetails = new ErrorDetails(
+        new Date(),
+        String.valueOf(HttpStatus.CONFLICT.value()),
+        HttpStatus.CONFLICT.getReasonPhrase(),
+        exception.getMessage(),
+        webRequest.getDescription(false).substring(4)
+    );
+    return new ResponseEntity<>(errorDetails, HttpStatus.CONFLICT);
   }
 
   /**

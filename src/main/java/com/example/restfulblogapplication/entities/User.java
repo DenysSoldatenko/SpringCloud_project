@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import java.util.Collection;
 import java.util.Set;
 import lombok.AllArgsConstructor;
@@ -37,8 +38,12 @@ public class User implements UserDetails {
   private long id;
 
   private String firstName;
+
   private String lastName;
+  
+  @Email
   private String email;
+
   private String password;
 
   @Enumerated(EnumType.STRING)

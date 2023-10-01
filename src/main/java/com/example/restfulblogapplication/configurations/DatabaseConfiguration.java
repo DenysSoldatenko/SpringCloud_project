@@ -19,8 +19,8 @@ import org.springframework.context.annotation.Configuration;
 //@Configuration
 @RequiredArgsConstructor
 public class DatabaseConfiguration {
-  private static final int NUMBER_OF_POSTS = 100;
-  private static final int NUMBER_OF_COMMENTS_PER_POST = 3;
+  private static final int NUMBER_OF_POSTS = 1_000_000;
+  private static final int MAX_NUMBER_OF_COMMENTS_PER_POST = 10;
 
 
   private final PostRepository postRepository;
@@ -39,9 +39,10 @@ public class DatabaseConfiguration {
         Post post = new Post();
         post.setTitle(faker.book().title());
         post.setDescription(faker.lorem().sentence());
-        post.setContent(faker.lorem().sentence());
+        post.setContent(faker.lorem().sentence(500));
 
-        List<Comment> comments = generateComments(post, faker);
+        int numberOfComments = faker.random().nextInt(MAX_NUMBER_OF_COMMENTS_PER_POST + 1);
+        List<Comment> comments = generateComments(post, faker, numberOfComments);
         post.setComments(comments);
 
         postRepository.save(post);
@@ -49,9 +50,9 @@ public class DatabaseConfiguration {
     };
   }
 
-  private List<Comment> generateComments(Post post, Faker faker) {
+  private List<Comment> generateComments(Post post, Faker faker, int numberOfComments) {
     List<Comment> comments = new ArrayList<>();
-    for (int i = 0; i < NUMBER_OF_COMMENTS_PER_POST; i++) {
+    for (int i = 0; i < numberOfComments; i++) {
       Comment comment = new Comment();
       comment.setName(faker.name().fullName());
       comment.setEmail(faker.internet().emailAddress());

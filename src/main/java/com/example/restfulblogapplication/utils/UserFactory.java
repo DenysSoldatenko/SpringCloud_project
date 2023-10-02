@@ -1,9 +1,9 @@
 package com.example.restfulblogapplication.utils;
 
 
-import com.example.restfulblogapplication.dtos.RegisterRequest;
-import com.example.restfulblogapplication.entities.Role;
-import com.example.restfulblogapplication.entities.User;
+import com.example.restfulblogapplication.dtos.auth.RegisterRequest;
+import com.example.restfulblogapplication.entities.auth.Role;
+import com.example.restfulblogapplication.entities.auth.User;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

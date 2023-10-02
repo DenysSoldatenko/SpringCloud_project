@@ -2,10 +2,10 @@ package com.example.restfulblogapplication.services.impl;
 
 import static com.example.restfulblogapplication.utils.ApplicationConstant.EMAIL_ALREADY_TAKEN;
 
-import com.example.restfulblogapplication.dtos.AuthenticationRequest;
-import com.example.restfulblogapplication.dtos.AuthenticationResponse;
-import com.example.restfulblogapplication.dtos.RegisterRequest;
-import com.example.restfulblogapplication.entities.User;
+import com.example.restfulblogapplication.dtos.auth.AuthenticationRequest;
+import com.example.restfulblogapplication.dtos.auth.AuthenticationResponse;
+import com.example.restfulblogapplication.dtos.auth.RegisterRequest;
+import com.example.restfulblogapplication.entities.auth.User;
 import com.example.restfulblogapplication.exceptions.ConflictException;
 import com.example.restfulblogapplication.repositories.UserRepository;
 import com.example.restfulblogapplication.security.jwt.JwtService;

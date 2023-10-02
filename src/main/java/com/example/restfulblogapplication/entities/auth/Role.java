@@ -1,4 +1,4 @@
-package com.example.restfulblogapplication.entities;
+package com.example.restfulblogapplication.entities.auth;
 
 /**
  * Enumeration representing user roles in the system.

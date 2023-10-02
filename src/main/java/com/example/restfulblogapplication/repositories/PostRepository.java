@@ -22,6 +22,30 @@ public interface PostRepository extends JpaRepository<Post, Long> {
       """, nativeQuery = true)
   Page<Post> searchByFullTextUsingSimilarity(@Param("query") String query, Pageable pageable);
 
+
+  /**
+   * Without additional join to comments (N+1 problem):
+   * This query retrieves posts and their associated search vectors
+   * where the title or description matches the search query.
+   * It avoids the N+1 problem by not including comments, but it might have faster response time
+   * due to simplicity.
+   *
+   * <p>With additional join to comments:
+   * If uncommented, this JOIN brings in comments associated with each post,
+   * eliminating the N+1 problem.
+   * However, be aware that it may increase response time due to the added complexity
+   * and potentially larger result set.
+   *
+   * <p>Additionally, it is recommended to create a new index
+   * on the columns used in joins and WHERE conditions
+   * to optimize the query performance.
+   *
+   * <p>To include comments and remove the N+1 problem: JOIN comments c ON p.id = c.post_id
+   *
+   * @param query The search query.
+   * @param pageable The pagination information for the result set.
+   * @return A Page of Post entities matching the search criteria.
+   */
   @Query(value = """
       SELECT p.id, p.title, p.description, p.content,
              ts_rank(psv.search_vector_title, plainto_tsquery('english', :query)) AS title_rank,
@@ -33,27 +57,4 @@ public interface PostRepository extends JpaRepository<Post, Long> {
       ORDER BY title_rank DESC, desc_rank DESC;
       """, nativeQuery = true)
   Page<Post> searchByFullTextUsingTsv(@Param("query") String query, Pageable pageable);
-
-  @Query("""
-    SELECT p
-    FROM Post p
-             JOIN FETCH p.postSearchVector
-    WHERE
-        ts_rank(p.postSearchVector.searchVectorTitle, plainto_tsquery('english', : query)) > 0.0
-    ORDER BY ts_rank(p.postSearchVector.searchVectorTitle, plainto_tsquery('english', : query)) DESC
-      """)
-  Page<Post> searchByFullTextUsingTsv2(@Param("query") String query, Pageable pageable);
-
-
-  @Query(value = """
-      SELECT p.id, p.title, p.description, p.content,
-             similarity(psv.search_vector_title::text, :query) AS title_similarity,
-             similarity(psv.search_vector_description::text, :query) AS description_similarity
-      FROM posts p
-               JOIN post_search_vector psv ON p.id = psv.post_id
-      WHERE similarity(psv.search_vector_title::text, :query) > 0.1
-         OR similarity(psv.search_vector_description::text, :query) > 0.1
-      ORDER BY title_similarity DESC, description_similarity DESC;
-      """, nativeQuery = true)
-  Page<Post> searchByFullTextUsingTsvAndSimilarity(@Param("query") String query, Pageable pageable);
 }

@@ -120,7 +120,7 @@ public class PostController {
       @ApiResponse(responseCode = "404", description = "Post not found", content = @Content),
       @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
   })
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasRole('ADMIN')")
   @DeleteMapping("/{id}")
   public ResponseEntity<String> deletePost(@PathVariable(name = "id") Long id) {
     postService.deletePostById(id);

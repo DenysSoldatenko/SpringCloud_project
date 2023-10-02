@@ -1,8 +1,8 @@
 package com.example.restfulblogapplication.controllers;
 
-import com.example.restfulblogapplication.dtos.AuthenticationRequest;
-import com.example.restfulblogapplication.dtos.AuthenticationResponse;
-import com.example.restfulblogapplication.dtos.RegisterRequest;
+import com.example.restfulblogapplication.dtos.auth.AuthenticationRequest;
+import com.example.restfulblogapplication.dtos.auth.AuthenticationResponse;
+import com.example.restfulblogapplication.dtos.auth.RegisterRequest;
 import com.example.restfulblogapplication.services.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -52,7 +52,7 @@ public class AuthController {
           schema = @Schema(implementation = AuthenticationResponse.class))
       }),
       @ApiResponse(responseCode = "400", description = "Bad request", content = @Content),
-      @ApiResponse(responseCode = "409", description = "Conflict - Email already taken", content = @Content),
+      @ApiResponse(responseCode = "409", description = "Email already taken", content = @Content),
       @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
   })
   @PostMapping("/register")

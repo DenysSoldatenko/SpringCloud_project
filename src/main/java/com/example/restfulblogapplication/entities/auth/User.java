@@ -1,4 +1,4 @@
-package com.example.restfulblogapplication.entities;
+package com.example.restfulblogapplication.entities.auth;
 
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.ElementCollection;

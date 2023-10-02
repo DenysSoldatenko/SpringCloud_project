@@ -1,4 +1,4 @@
-package com.example.restfulblogapplication.dtos;
+package com.example.restfulblogapplication.dtos.auth;
 
 /**
  * Data Transfer Object (DTO) for authentication responses.

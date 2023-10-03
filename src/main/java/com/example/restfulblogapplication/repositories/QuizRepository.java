@@ -11,4 +11,6 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 public interface QuizRepository extends ElasticsearchRepository<Quiz, String> {
 
   Page<Quiz> findByCategory(String category, Pageable pageable);
+
+  Page<Quiz> findByName(String category, Pageable pageable);
 }

@@ -1,6 +1,8 @@
 package com.example.restfulblogapplication.controllers;
 
+import com.example.restfulblogapplication.dtos.AnswerDto;
 import com.example.restfulblogapplication.dtos.QuizDto;
+import com.example.restfulblogapplication.dtos.ResultDto;
 import com.example.restfulblogapplication.services.QuizService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -125,5 +127,26 @@ public class QuizController {
   public ResponseEntity<String> deleteQuiz(@PathVariable(name = "id") String id) {
     quizService.deleteQuizById(id);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  }
+
+
+  @Operation(summary = "Submit answers for a quiz")
+  @ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "Quiz answers submitted successfully",
+      content = {
+        @Content(mediaType = "application/json",
+          schema = @Schema(implementation = ResultDto.class))
+      }),
+    @ApiResponse(responseCode = "400", description = "Bad request", content = @Content),
+    @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content),
+    @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content),
+    @ApiResponse(responseCode = "404", description = "Quiz not found", content = @Content),
+    @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+  })
+  @PostMapping("/{id}/submit")
+  public ResponseEntity<ResultDto> submitQuizAnswers(@Valid @RequestBody AnswerDto answerDto,
+                                                     @PathVariable String id) {
+    ResultDto resultDto = quizService.validateAnswers(answerDto, id);
+    return new ResponseEntity<>(resultDto, HttpStatus.OK);
   }
 }

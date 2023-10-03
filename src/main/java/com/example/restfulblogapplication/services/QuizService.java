@@ -1,6 +1,8 @@
 package com.example.restfulblogapplication.services;
 
+import com.example.restfulblogapplication.dtos.AnswerDto;
 import com.example.restfulblogapplication.dtos.QuizDto;
+import com.example.restfulblogapplication.dtos.ResultDto;
 import java.util.List;
 
 /**
@@ -16,4 +18,6 @@ public interface QuizService {
   QuizDto updateQuizById(QuizDto quizDto, String id);
 
   void deleteQuizById(String id);
+
+  ResultDto validateAnswers(AnswerDto answerDto, String id);
 }

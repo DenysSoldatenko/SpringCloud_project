@@ -9,4 +9,6 @@ import java.util.List;
 public interface QuizSearchService {
 
   List<QuizDto> findByCategory(String category, int pageNo, int pageSize);
+
+  List<QuizDto> findByName(String query, int pageNo, int pageSize);
 }

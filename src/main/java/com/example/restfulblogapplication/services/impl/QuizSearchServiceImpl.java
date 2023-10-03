@@ -31,4 +31,14 @@ public class QuizSearchServiceImpl implements QuizSearchService {
       ? pagedResult.getContent().stream().map(quizMapper::toDto).toList()
       : List.of();
   }
+
+  @Override
+  public List<QuizDto> findByName(String category, int pageNo, int pageSize) {
+    Pageable pageable = PageRequest.of(pageNo, pageSize);
+    Page<Quiz> pagedResult = quizRepository.findByName(category, pageable);
+
+    return pagedResult.hasContent()
+      ? pagedResult.getContent().stream().map(quizMapper::toDto).toList()
+      : List.of();
+  }
 }

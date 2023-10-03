@@ -29,7 +29,7 @@ public class QuizSearchController {
 
   private final QuizSearchService quizSearchService;
 
-  @Operation(summary = "Search quizzes using ES")
+  @Operation(summary = "Search quizzes by category using ES")
   @ApiResponses(value = {
     @ApiResponse(responseCode = "200", description = "List of quizzes",
       content = {
@@ -40,12 +40,33 @@ public class QuizSearchController {
     @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content),
     @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
   })
-  @GetMapping()
-  public List<QuizDto> searchQuizzes(
+  @GetMapping("/category")
+  public List<QuizDto> searchQuizzesByCategory(
       @RequestParam String query,
       @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
       @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
   ) {
     return quizSearchService.findByCategory(query, pageNo, pageSize);
+  }
+
+
+  @Operation(summary = "Search quizzes by name using ES")
+  @ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "List of quizzes",
+      content = {
+        @Content(mediaType = "application/json",
+          schema = @Schema(implementation = PostDto.class))
+      }),
+    @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content),
+    @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content),
+    @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+  })
+  @GetMapping("/name")
+  public List<QuizDto> searchQuizzesByName(
+      @RequestParam String query,
+      @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+      @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
+  ) {
+    return quizSearchService.findByName(query, pageNo, pageSize);
   }
 }

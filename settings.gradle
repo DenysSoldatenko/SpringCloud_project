@@ -1,1 +1,9 @@
 rootProject.name = 'RestfulBlogApplication'
+
+includeBuild('app-blog')
+includeBuild('app-common')
+includeBuild('app-gateway')
+includeBuild('app-quiz')
+includeBuild('data-generator')
+includeBuild('eureka-server')
+includeBuild('github-config-server')

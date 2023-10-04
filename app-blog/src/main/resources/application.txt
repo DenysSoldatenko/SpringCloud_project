@@ -1,0 +1,17 @@
+spring.application.name=app-blog
+spring.config.import=configserver:http://localhost:8888
+
+server.port=8081
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka
+eureka.instance.instance-id=${spring.application.name}:${random.uuid}
+
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.open-in-view=false
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+# Hibernate ddl auto (create, create-drop, validate, update)
+spring.jpa.hibernate.ddl-auto=update

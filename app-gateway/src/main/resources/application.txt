@@ -1,0 +1,31 @@
+server:
+  port: 8765
+
+spring:
+  r2dbc:
+    url:
+    username:
+    password:
+  config:
+    import: configserver:http://localhost:8888
+  application:
+    name: app-gateway
+  jpa:
+    hibernate:
+      ddl-auto: update
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+
+jwt:
+  password:
+    encoder:
+      secret:
+      iteration: 64
+      length: 256
+  secret:
+  expiration: 36000
+  issuer: micro-project

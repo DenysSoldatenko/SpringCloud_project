@@ -1,4 +1,4 @@
-rootProject.name = 'RestfulBlogApplication'
+rootProject.name = 'SpringCloud_project'
 
 includeBuild('app-blog')
 includeBuild('app-common')

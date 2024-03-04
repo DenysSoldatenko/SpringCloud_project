@@ -1,9 +1,0 @@
-spring.datasource.url=
-spring.datasource.username=
-spring.datasource.password=
-spring.datasource.driver-class-name=org.postgresql.Driver
-spring.jpa.open-in-view=false
-
-# Hibernate ddl auto (create, create-drop, validate, update)
-spring.jpa.hibernate.ddl-auto=update
-logging.level.org.springframework.security=DEBUG

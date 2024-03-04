@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${SPRING_DATASOURCE_HOST}:5432/example_database?currentSchema=media_hub
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+
+logging:
+  level:
+    org.springframework.security: DEBUG

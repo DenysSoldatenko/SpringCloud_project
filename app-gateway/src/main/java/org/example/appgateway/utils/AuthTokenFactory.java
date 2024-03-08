@@ -1,5 +1,9 @@
 package org.example.appgateway.utils;
 
+import static java.lang.Long.parseLong;
+import static java.util.List.of;
+import static reactor.core.publisher.Mono.justOrEmpty;
+
 import io.jsonwebtoken.Claims;
 import java.util.List;
 import lombok.experimental.UtilityClass;
@@ -29,11 +33,11 @@ public class AuthTokenFactory {
     String role = claims.get("role", String.class);
     String username = claims.get("username", String.class);
 
-    List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role));
+    List<SimpleGrantedAuthority> authorities = of(new SimpleGrantedAuthority(role));
 
-    Long principalId = Long.parseLong(subject);
+    Long principalId = parseLong(subject);
     CustomPrincipal principal = new CustomPrincipal(principalId, username);
 
-    return Mono.justOrEmpty(new UsernamePasswordAuthenticationToken(principal, null, authorities));
+    return justOrEmpty(new UsernamePasswordAuthenticationToken(principal, null, authorities));
   }
 }

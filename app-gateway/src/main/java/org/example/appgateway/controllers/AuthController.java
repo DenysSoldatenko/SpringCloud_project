@@ -1,11 +1,14 @@
 package org.example.appgateway.controllers;
 
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.ResponseEntity.status;
+
 import lombok.RequiredArgsConstructor;
 import org.example.appgateway.dtos.AuthRequestDto;
 import org.example.appgateway.dtos.AuthResponseDto;
 import org.example.appgateway.dtos.RegisterRequestDto;
 import org.example.appgateway.services.AuthService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,13 +28,11 @@ public class AuthController {
 
   @PostMapping("/register")
   public Mono<ResponseEntity<String>> register(@RequestBody RegisterRequestDto request) {
-    return authService.registerUser(request)
-      .map(result -> ResponseEntity.status(HttpStatus.CREATED).body(result));
+    return authService.registerUser(request).map(result -> status(CREATED).body(result));
   }
 
   @PostMapping("/authenticate")
   public Mono<ResponseEntity<AuthResponseDto>> login(@RequestBody AuthRequestDto request) {
-    return authService.authenticateUser(request)
-      .map(result -> ResponseEntity.status(HttpStatus.OK).body(result));
+    return authService.authenticateUser(request).map(result -> status(OK).body(result));
   }
 }

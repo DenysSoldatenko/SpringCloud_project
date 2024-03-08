@@ -1,6 +1,7 @@
 package org.example.appgateway.utils;
 
-import java.util.Base64;
+import static java.util.Base64.getEncoder;
+
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import lombok.SneakyThrows;
@@ -30,13 +31,13 @@ public class Pbkdf2Encoder implements PasswordEncoder {
   public String encode(CharSequence rawPassword) {
 
     byte[] result = SecretKeyFactory
-      .getInstance(SECRET_KEY_INSTANCE)
-      .generateSecret(
-        new PBEKeySpec(rawPassword.toString().toCharArray(), secret.getBytes(), iteration, length)
-      )
-      .getEncoded();
+        .getInstance(SECRET_KEY_INSTANCE)
+        .generateSecret(
+          new PBEKeySpec(rawPassword.toString().toCharArray(), secret.getBytes(), iteration, length)
+        )
+        .getEncoded();
 
-    return Base64.getEncoder().encodeToString(result);
+    return getEncoder().encodeToString(result);
   }
 
   @Override

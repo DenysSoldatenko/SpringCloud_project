@@ -1,12 +1,13 @@
 package org.example.appgateway.jwt;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
+import static io.jsonwebtoken.Jwts.builder;
+import static io.jsonwebtoken.io.Decoders.BASE64;
+import static io.jsonwebtoken.security.Keys.hmacShaKeyFor;
+import static java.util.UUID.randomUUID;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,12 +56,12 @@ public class JwtService {
   private TokenDetails generateToken(Date expirationDate,
                                      Map<String, Object> claims, String subject) {
     Date createdDate = new Date();
-    String token = Jwts.builder()
+    String token = builder()
         .claims(claims)
         .issuer(issuer)
         .subject(subject)
         .issuedAt(createdDate)
-        .id(UUID.randomUUID().toString())
+        .id(randomUUID().toString())
         .expiration(expirationDate)
         .signWith(getSignInKey())
         .compact();
@@ -73,7 +74,7 @@ public class JwtService {
   }
 
   private SecretKey getSignInKey() {
-    byte[] keyBytes = Decoders.BASE64.decode(secretKey);
-    return Keys.hmacShaKeyFor(keyBytes);
+    byte[] keyBytes = BASE64.decode(secretKey);
+    return hmacShaKeyFor(keyBytes);
   }
 }

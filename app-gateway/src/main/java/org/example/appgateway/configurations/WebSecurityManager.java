@@ -1,5 +1,7 @@
 package org.example.appgateway.configurations;
 
+import static reactor.core.publisher.Mono.error;
+
 import lombok.RequiredArgsConstructor;
 import org.example.appcommon.exceptions.AuthException;
 import org.example.appgateway.jwt.common.CustomPrincipal;
@@ -22,7 +24,7 @@ public class WebSecurityManager implements ReactiveAuthenticationManager {
   public Mono<Authentication> authenticate(Authentication authentication) {
     CustomPrincipal principal = (CustomPrincipal) authentication.getPrincipal();
     return userService.findById(principal.getId())
-      .switchIfEmpty(Mono.error(new AuthException("User not found!")))
+      .switchIfEmpty(error(new AuthException("User not found!")))
       .map(user -> authentication);
   }
 }

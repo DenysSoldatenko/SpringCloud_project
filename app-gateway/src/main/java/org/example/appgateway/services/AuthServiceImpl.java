@@ -1,5 +1,8 @@
 package org.example.appgateway.services;
 
+import static reactor.core.publisher.Mono.error;
+import static reactor.core.publisher.Mono.just;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.appcommon.exceptions.AuthException;
@@ -38,18 +41,18 @@ public class AuthServiceImpl implements AuthService {
   public Mono<AuthResponseDto> authenticateUser(AuthRequestDto request) {
     return userRepository.findByEmail(request.email())
       .flatMap(user -> authenticateUser(user, request))
-      .switchIfEmpty(Mono.error(new AuthException("Invalid username!")));
+      .switchIfEmpty(error(new AuthException("Invalid username!")));
   }
 
   private Mono<AuthResponseDto> authenticateUser(User user, AuthRequestDto request) {
     if (!passwordEncoder.matches(request.password(), user.getPassword())) {
       log.warn("Invalid password for user: {}", request.email());
-      return Mono.error(new AuthException("Invalid password!"));
+      return error(new AuthException("Invalid password!"));
     }
 
     log.info("User details - ID: {}, Role: {}", user.getId(), user.getRole());
 
     AuthResponseDto authResponseDto = responseFactory.createResponseFromUser(user);
-    return Mono.just(authResponseDto);
+    return just(authResponseDto);
   }
 }

@@ -1,13 +1,18 @@
 package org.example.appcommon.exceptions.errorhandling;
 
+import static java.lang.String.valueOf;
+import static java.util.stream.Collectors.joining;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+
 import java.util.Date;
-import java.util.stream.Collectors;
 import org.example.appcommon.exceptions.AuthException;
 import org.example.appcommon.exceptions.BlogApiException;
 import org.example.appcommon.exceptions.CommentNotFoundException;
 import org.example.appcommon.exceptions.ConflictException;
 import org.example.appcommon.exceptions.PostNotFoundException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -31,20 +36,18 @@ public class GlobalExceptionHandler {
    * @return a ResponseEntity containing details of the error response.
    */
   @ExceptionHandler(PostNotFoundException.class)
-  @ResponseStatus(HttpStatus.NOT_FOUND)
+  @ResponseStatus(NOT_FOUND)
   public ResponseEntity<ErrorDetails> handlePostNotFoundException(
       PostNotFoundException exception, WebRequest webRequest
   ) {
-
     ErrorDetails errorDetails = new ErrorDetails(
         new Date(),
-        String.valueOf(HttpStatus.NOT_FOUND.value()),
-        HttpStatus.NOT_FOUND.getReasonPhrase(),
+        valueOf(NOT_FOUND.value()),
+        NOT_FOUND.getReasonPhrase(),
         exception.getMessage(),
         webRequest.getDescription(false).substring(4)
     );
-
-    return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(errorDetails, NOT_FOUND);
   }
 
   /**
@@ -60,12 +63,12 @@ public class GlobalExceptionHandler {
   ) {
     ErrorDetails errorDetails = new ErrorDetails(
         new Date(),
-        String.valueOf(HttpStatus.NOT_FOUND.value()),
-        HttpStatus.NOT_FOUND.getReasonPhrase(),
+        valueOf(NOT_FOUND.value()),
+        NOT_FOUND.getReasonPhrase(),
         exception.getMessage(),
         webRequest.getDescription(false).substring(4)
     );
-    return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(errorDetails, NOT_FOUND);
   }
 
   /**
@@ -81,12 +84,12 @@ public class GlobalExceptionHandler {
   ) {
     ErrorDetails errorDetails = new ErrorDetails(
         new Date(),
-        String.valueOf(HttpStatus.NOT_FOUND.value()),
-        HttpStatus.NOT_FOUND.getReasonPhrase(),
+        valueOf(NOT_FOUND.value()),
+        NOT_FOUND.getReasonPhrase(),
         exception.getMessage(),
         webRequest.getDescription(false).substring(4)
     );
-    return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(errorDetails, NOT_FOUND);
   }
 
   /**
@@ -102,12 +105,12 @@ public class GlobalExceptionHandler {
   ) {
     ErrorDetails errorDetails = new ErrorDetails(
         new Date(),
-        String.valueOf(HttpStatus.BAD_REQUEST.value()),
-        HttpStatus.BAD_REQUEST.getReasonPhrase(),
+        valueOf(BAD_REQUEST.value()),
+        BAD_REQUEST.getReasonPhrase(),
         exception.getMessage(),
         webRequest.getDescription(false).substring(4)
     );
-    return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(errorDetails, BAD_REQUEST);
   }
 
   /**
@@ -123,12 +126,12 @@ public class GlobalExceptionHandler {
   ) {
     ErrorDetails errorDetails = new ErrorDetails(
         new Date(),
-        String.valueOf(HttpStatus.CONFLICT.value()),
-        HttpStatus.CONFLICT.getReasonPhrase(),
+        valueOf(CONFLICT.value()),
+        CONFLICT.getReasonPhrase(),
         exception.getMessage(),
         webRequest.getDescription(false).substring(4)
     );
-    return new ResponseEntity<>(errorDetails, HttpStatus.CONFLICT);
+    return new ResponseEntity<>(errorDetails, CONFLICT);
   }
 
   /**
@@ -144,12 +147,12 @@ public class GlobalExceptionHandler {
   ) {
     ErrorDetails errorDetails = new ErrorDetails(
         new Date(),
-        String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()),
-        HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
+        valueOf(INTERNAL_SERVER_ERROR.value()),
+        INTERNAL_SERVER_ERROR.getReasonPhrase(),
         exception.getMessage(),
         webRequest.getDescription(false).substring(4)
     );
-    return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+    return new ResponseEntity<>(errorDetails, INTERNAL_SERVER_ERROR);
   }
 
   /**
@@ -166,17 +169,16 @@ public class GlobalExceptionHandler {
 
     String errorMessage = exception.getBindingResult().getFieldErrors().stream()
         .map(FieldError::getDefaultMessage)
-        .collect(Collectors.joining(", "));
-
+        .collect(joining(", "));
 
     ErrorDetails errorDetails = new ErrorDetails(
         new Date(),
-        String.valueOf(HttpStatus.BAD_REQUEST.value()),
-        HttpStatus.BAD_REQUEST.getReasonPhrase(),
+        valueOf(BAD_REQUEST.value()),
+        BAD_REQUEST.getReasonPhrase(),
         errorMessage,
         webRequest.getDescription(false).substring(4)
     );
 
-    return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(errorDetails, BAD_REQUEST);
   }
 }

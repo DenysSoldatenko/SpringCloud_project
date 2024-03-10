@@ -1,5 +1,8 @@
 package org.example.appblog.controllers;
 
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.OK;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -106,7 +109,7 @@ public class PostController {
   public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto,
                                             @PathVariable(name = "id") Long id) {
     PostDto postResponse = postService.updatePostById(postDto, id);
-    return new ResponseEntity<>(postResponse, HttpStatus.OK);
+    return new ResponseEntity<>(postResponse, OK);
   }
 
   @Operation(summary = "Delete a blog post by ID")
@@ -120,6 +123,6 @@ public class PostController {
   @DeleteMapping("/{id}")
   public ResponseEntity<String> deletePost(@PathVariable(name = "id") Long id) {
     postService.deletePostById(id);
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    return new ResponseEntity<>(NO_CONTENT);
   }
 }

@@ -1,5 +1,8 @@
 package org.example.appblog.controllers;
 
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.OK;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -13,7 +16,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.appblog.dtos.CommentDto;
 import org.example.appblog.services.CommentService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,7 +55,7 @@ public class CommentController {
   public ResponseEntity<CommentDto> createComment(@PathVariable(value = "postId") long postId,
                                                   @Valid @RequestBody CommentDto commentDto) {
     CommentDto comment = commentService.createComment(postId, commentDto);
-    return new ResponseEntity<>(comment, HttpStatus.CREATED);
+    return new ResponseEntity<>(comment, CREATED);
   }
 
   @Operation(summary = "Get all comments for a blog post")
@@ -93,7 +95,7 @@ public class CommentController {
   public ResponseEntity<CommentDto> getCommentById(@PathVariable(value = "postId") Long postId,
                                                    @PathVariable(value = "id") Long commentId) {
     CommentDto commentDto = commentService.getCommentByPostId(postId, commentId);
-    return new ResponseEntity<>(commentDto, HttpStatus.OK);
+    return new ResponseEntity<>(commentDto, OK);
   }
 
   @Operation(summary = "Update a comment for a blog post")
@@ -124,7 +126,7 @@ public class CommentController {
                                                   @PathVariable(value = "id") Long commentId,
                                                   @Valid @RequestBody CommentDto commentDto) {
     CommentDto updatedComment = commentService.updateCommentByPostId(postId, commentId, commentDto);
-    return new ResponseEntity<>(updatedComment, HttpStatus.OK);
+    return new ResponseEntity<>(updatedComment, OK);
   }
 
   @Operation(summary = "Delete a comment for a blog post")
@@ -149,6 +151,6 @@ public class CommentController {
   public ResponseEntity<String> deleteComment(@PathVariable(value = "postId") Long postId,
                                               @PathVariable(value = "id") Long commentId) {
     commentService.deleteCommentByPostId(postId, commentId);
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    return new ResponseEntity<>(NO_CONTENT);
   }
 }

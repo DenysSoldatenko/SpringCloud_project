@@ -18,6 +18,10 @@ public class QuestionDeserializer extends StdDeserializer<Question> {
     super(vc);
   }
 
+  public QuestionDeserializer() {
+    this(null);
+  }
+
   @Override
   public Question deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
     JsonNode node = jp.getCodec().readTree(jp);

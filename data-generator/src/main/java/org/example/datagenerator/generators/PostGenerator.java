@@ -1,8 +1,9 @@
 package org.example.datagenerator.generators;
 
+import static java.util.stream.IntStream.range;
+
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.IntStream;
 import net.datafaker.Faker;
 import org.example.appblog.entities.Comment;
 import org.example.appblog.entities.Post;
@@ -23,9 +24,9 @@ public class PostGenerator {
    * @return A list of posts.
    */
   public List<Post> generatePostBatch(int batchSize) {
-    return IntStream.range(0, batchSize)
-      .mapToObj(i -> generatePost())
-      .toList();
+    return range(0, batchSize)
+        .mapToObj(i -> generatePost())
+        .toList();
   }
 
   private Post generatePost() {
@@ -40,7 +41,7 @@ public class PostGenerator {
 
   private List<Comment> generateComments(Post post) {
     int numberOfComments = faker.random().nextInt(10) + 1;
-    return IntStream.range(0, numberOfComments)
+    return range(0, numberOfComments)
       .mapToObj(i -> generateComment(post))
       .toList();
   }

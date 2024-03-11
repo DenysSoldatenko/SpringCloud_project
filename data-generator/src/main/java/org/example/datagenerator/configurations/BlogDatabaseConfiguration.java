@@ -1,7 +1,8 @@
 package org.example.datagenerator.configurations;
 
+import static java.util.stream.IntStream.range;
+
 import java.util.List;
-import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.appblog.entities.Post;
@@ -27,7 +28,7 @@ public class BlogDatabaseConfiguration {
     int batchSize = 1_000;
     int totalPosts = 100_000;
 
-    IntStream.range(0, totalPosts / batchSize)
+    range(0, totalPosts / batchSize)
         .parallel()
         .forEach(batchIndex -> {
           try {

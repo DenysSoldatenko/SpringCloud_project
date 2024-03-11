@@ -1,9 +1,10 @@
 package org.example.datagenerator.generators;
 
+import static java.util.stream.IntStream.range;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
 import net.datafaker.Faker;
 import org.example.appquiz.entities.Question;
@@ -30,7 +31,7 @@ public class QuizGenerator {
   public List<Quiz> generateQuizBatch(int batchSize) throws IOException {
     List<Question> questions = questionProvider.parseJsonToQuestionList();
 
-    return IntStream.range(0, batchSize)
+    return range(0, batchSize)
       .mapToObj(i -> generateQuiz(questions))
       .toList();
   }
@@ -40,7 +41,6 @@ public class QuizGenerator {
     int numQuestionsToPick = faker.number().numberBetween(10, 20);
 
     int startIndex = faker.number().numberBetween(0, totalQuestions - numQuestionsToPick);
-
     List<Question> questionList = questions.subList(startIndex, startIndex + numQuestionsToPick);
 
     return Quiz.builder()

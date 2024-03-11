@@ -1,7 +1,8 @@
 package org.example.datagenerator.configurations;
 
+import static java.util.stream.IntStream.range;
+
 import java.util.List;
-import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.appquiz.entities.Quiz;
@@ -24,10 +25,10 @@ public class QuizDatabaseConfiguration {
    * Initializes quiz data in the database.
    */
   public void initData() {
-    int batchSize = 1_000;
-    int totalRecords = 100_000;
+    int batchSize = 100;
+    int totalRecords = 1000;
 
-    IntStream.range(0, totalRecords / batchSize)
+    range(0, totalRecords / batchSize)
         .parallel()
         .forEach(batchIndex -> {
           try {

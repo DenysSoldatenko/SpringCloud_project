@@ -1,15 +1,16 @@
 package org.example.datagenerator.generators;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.springframework.util.StreamUtils.copyToString;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.appquiz.entities.Question;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StreamUtils;
 
 /**
  * Utility class for providing a list of questions parsed from a JSON file.
@@ -37,6 +38,6 @@ public class QuestionProvider {
 
   private String loadJsonDataFromFile() throws IOException {
     ClassPathResource resource = new ClassPathResource("questions.json");
-    return StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
+    return copyToString(resource.getInputStream(), UTF_8);
   }
 }

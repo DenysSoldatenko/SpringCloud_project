@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 @EnableElasticsearchRepositories(basePackages = "org.example.appquiz.repositories")
 @ComponentScan(basePackages = { "org.example.appquiz.services" })
 public class ElasticSearchConfiguration {
+
   @Bean
   public RestClient getRestClient() {
     return RestClient.builder(new HttpHost("localhost", 9200)).build();

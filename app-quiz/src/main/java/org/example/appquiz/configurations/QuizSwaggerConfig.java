@@ -1,7 +1,8 @@
 package org.example.appquiz.configurations;
 
+import static io.swagger.v3.oas.annotations.enums.SecuritySchemeType.HTTP;
+
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
@@ -36,8 +37,12 @@ import org.springframework.context.annotation.Configuration;
         )
     }
 )
-@SecurityScheme(name = "Bearer Authentication", type = SecuritySchemeType.HTTP,
-    bearerFormat = "JWT", scheme = "bearer")
+@SecurityScheme(
+    name = "Bearer Authentication",
+    type = HTTP,
+    bearerFormat = "JWT",
+    scheme = "bearer"
+)
 public class QuizSwaggerConfig {
 
 }

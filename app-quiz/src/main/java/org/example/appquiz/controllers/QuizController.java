@@ -1,5 +1,10 @@
 package org.example.appquiz.controllers;
 
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.ResponseEntity.ok;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,7 +19,6 @@ import org.example.appquiz.dtos.AnswerDto;
 import org.example.appquiz.dtos.QuizDto;
 import org.example.appquiz.dtos.ResultDto;
 import org.example.appquiz.services.QuizService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,7 +56,7 @@ public class QuizController {
   })
   @PostMapping
   public ResponseEntity<QuizDto> createQuiz(@Valid @RequestBody QuizDto quizDto) {
-    return new ResponseEntity<>(quizService.createQuiz(quizDto), HttpStatus.CREATED);
+    return new ResponseEntity<>(quizService.createQuiz(quizDto), CREATED);
   }
 
   @Operation(summary = "Get all quizzes")
@@ -88,7 +92,7 @@ public class QuizController {
   })
   @GetMapping("/{id}")
   public ResponseEntity<QuizDto> getQuizById(@PathVariable(name = "id") String id) {
-    return ResponseEntity.ok(quizService.getQuizById(id));
+    return ok(quizService.getQuizById(id));
   }
 
   @Operation(summary = "Update a quiz by ID")
@@ -108,7 +112,7 @@ public class QuizController {
   public ResponseEntity<QuizDto> updateQuiz(@Valid @RequestBody QuizDto quizDto,
                                             @PathVariable(name = "id") String id) {
     QuizDto quizResponse = quizService.updateQuizById(quizDto, id);
-    return new ResponseEntity<>(quizResponse, HttpStatus.OK);
+    return new ResponseEntity<>(quizResponse, OK);
   }
 
   @Operation(summary = "Delete a quiz by ID")
@@ -122,7 +126,7 @@ public class QuizController {
   @DeleteMapping("/{id}")
   public ResponseEntity<String> deleteQuiz(@PathVariable(name = "id") String id) {
     quizService.deleteQuizById(id);
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    return new ResponseEntity<>(NO_CONTENT);
   }
 
 
@@ -143,6 +147,6 @@ public class QuizController {
   public ResponseEntity<ResultDto> submitQuizAnswers(@Valid @RequestBody AnswerDto answerDto,
                                                      @PathVariable String id) {
     ResultDto resultDto = quizService.validateAnswers(answerDto, id);
-    return new ResponseEntity<>(resultDto, HttpStatus.OK);
+    return new ResponseEntity<>(resultDto, OK);
   }
 }

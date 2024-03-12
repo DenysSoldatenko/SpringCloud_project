@@ -1,12 +1,14 @@
 package org.example.appquiz.services.impl;
 
+import static java.util.stream.IntStream.range;
 import static org.example.appcommon.utils.ApplicationConstant.CONGRATULATIONS_MESSAGE;
 import static org.example.appcommon.utils.ApplicationConstant.QUIZ_NOT_FOUND_MESSAGE;
 import static org.example.appcommon.utils.ApplicationConstant.TRY_AGAIN_MESSAGE;
+import static org.springframework.data.domain.Sort.Direction.ASC;
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
 import org.example.appcommon.exceptions.QuizNotFoundException;
 import org.example.appquiz.dtos.AnswerDto;
@@ -47,7 +49,7 @@ public class QuizServiceImpl implements QuizService {
     if (!sortBy.endsWith(".keyword")) {
       sortBy += ".keyword";
     }
-    Sort sort = Sort.by(sortDir.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy);
+    Sort sort = Sort.by(sortDir.equals("asc") ? ASC : DESC, sortBy);
     Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
     return quizRepository.findAll(pageable).stream().map(quizMapper::toDto).toList();
   }
@@ -92,7 +94,7 @@ public class QuizServiceImpl implements QuizService {
     List<String> correctAnswers = new ArrayList<>();
     List<String> incorrectAnswers = new ArrayList<>();
 
-    IntStream.range(0, answerDto.userAnswers().size())
+    range(0, answerDto.userAnswers().size())
         .forEach(i -> {
           String userAnswer = answerDto.userAnswers().get(i);
           QuestionDto correctAnswer = quizQuestions.get(i);

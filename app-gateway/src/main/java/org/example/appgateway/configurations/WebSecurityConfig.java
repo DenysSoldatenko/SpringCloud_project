@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.config.web.server.ServerHttpSecurity.CsrfSpec;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
 
@@ -48,10 +49,12 @@ public class WebSecurityConfig {
    * @return The configured SecurityWebFilterChain.
    */
   @Bean
-  public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http,
-                                                       WebSecurityManager webSecurityManager) {
+  public SecurityWebFilterChain securityWebFilterChain(
+      ServerHttpSecurity http, WebSecurityManager webSecurityManager
+  ) {
+
     return http
-      .csrf(ServerHttpSecurity.CsrfSpec::disable)
+      .csrf(CsrfSpec::disable)
       .authorizeExchange(
         authorizeExchangeSpec ->
           authorizeExchangeSpec.pathMatchers(OPTIONS).permitAll()

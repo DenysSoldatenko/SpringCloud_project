@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Email;
  */
 @Schema(description = "DTO for authentication requests")
 public record AuthRequestDto(
+
     @Email
     @Schema(
       description = "Email address of the user",

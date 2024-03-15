@@ -17,6 +17,7 @@ repositories {
 
 dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    implementation "io.swagger.core.v3:swagger-annotations:${swaggerAnnotationsVersion}"
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:${springBootVersion}"

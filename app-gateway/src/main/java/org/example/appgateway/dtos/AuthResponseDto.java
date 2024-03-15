@@ -13,6 +13,7 @@ import lombok.Builder;
 @JsonNaming(SnakeCaseStrategy.class)
 @Schema(description = "DTO for authentication response")
 public record AuthResponseDto(
+
     @Schema(
       description = "ID of the user",
       example = "1"

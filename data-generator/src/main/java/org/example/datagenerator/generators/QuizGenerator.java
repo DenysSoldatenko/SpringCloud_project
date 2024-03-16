@@ -46,7 +46,7 @@ public class QuizGenerator {
     return Quiz.builder()
       .name(generateRandomSentence())
       .category(faker.book().genre())
-      .difficulty(faker.options().option("easy", "medium", "hard"))
+      .difficulty(faker.options().option("Easy", "Medium", "Hard"))
       .questions(questionList)
       .build();
   }

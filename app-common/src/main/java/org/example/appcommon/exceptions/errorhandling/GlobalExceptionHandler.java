@@ -13,12 +13,12 @@ import org.example.appcommon.exceptions.BlogApiException;
 import org.example.appcommon.exceptions.CommentNotFoundException;
 import org.example.appcommon.exceptions.ConflictException;
 import org.example.appcommon.exceptions.PostNotFoundException;
+import org.example.appcommon.exceptions.QuizNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 
 /**
@@ -36,9 +36,29 @@ public class GlobalExceptionHandler {
    * @return a ResponseEntity containing details of the error response.
    */
   @ExceptionHandler(PostNotFoundException.class)
-  @ResponseStatus(NOT_FOUND)
   public ResponseEntity<ErrorDetails> handlePostNotFoundException(
       PostNotFoundException exception, WebRequest webRequest
+  ) {
+    ErrorDetails errorDetails = new ErrorDetails(
+        new Date(),
+        valueOf(NOT_FOUND.value()),
+        NOT_FOUND.getReasonPhrase(),
+        exception.getMessage(),
+        webRequest.getDescription(false).substring(4)
+    );
+    return new ResponseEntity<>(errorDetails, NOT_FOUND);
+  }
+
+  /**
+   * Handles the exception when a {@link QuizNotFoundException} occurs.
+   *
+   * @param exception  the exception that was thrown.
+   * @param webRequest the web request where the exception occurred.
+   * @return a ResponseEntity containing details of the error response.
+   */
+  @ExceptionHandler(QuizNotFoundException.class)
+  public ResponseEntity<ErrorDetails> handleQuizNotFoundException(
+      QuizNotFoundException exception, WebRequest webRequest
   ) {
     ErrorDetails errorDetails = new ErrorDetails(
         new Date(),

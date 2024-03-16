@@ -48,7 +48,6 @@ public class QuizSearchController {
     return quizSearchService.findByCategory(query, pageNo, pageSize);
   }
 
-
   @Operation(summary = "Search quizzes by name using ES")
   @ApiResponses(value = {
     @ApiResponse(responseCode = "200", description = "List of quizzes",

@@ -129,7 +129,6 @@ public class QuizController {
     return new ResponseEntity<>(NO_CONTENT);
   }
 
-
   @Operation(summary = "Submit answers for a quiz")
   @ApiResponses(value = {
     @ApiResponse(responseCode = "200", description = "Quiz answers submitted successfully",

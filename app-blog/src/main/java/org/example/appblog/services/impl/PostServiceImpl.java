@@ -1,16 +1,16 @@
 package org.example.appblog.services.impl;
 
-import static org.example.appcommon.utils.ApplicationConstant.POST_NOT_FOUND_MESSAGE;
+import static org.example.appblog.utils.ApplicationConstant.POST_NOT_FOUND_MESSAGE;
 import static org.springframework.data.domain.Sort.Direction.fromString;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.appblog.dtos.PostDto;
 import org.example.appblog.entities.Post;
+import org.example.appblog.exceptions.PostNotFoundException;
 import org.example.appblog.mappers.PostMapper;
 import org.example.appblog.repositories.PostRepository;
 import org.example.appblog.services.PostService;
-import org.example.appcommon.exceptions.PostNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;

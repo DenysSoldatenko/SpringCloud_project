@@ -1,3 +1,6 @@
+server:
+  port: 8085
+
 spring:
   application:
     name: app-quiz
@@ -8,9 +11,6 @@ spring:
     elasticsearch:
       repositories:
        enabled: true
-
-server:
-  port: 8085
 
 eureka:
   client:

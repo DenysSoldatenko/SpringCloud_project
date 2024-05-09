@@ -1,21 +1,21 @@
 package org.example.appblog.services.impl;
 
-import static org.example.appcommon.utils.ApplicationConstant.COMMENT_DOES_NOT_BELONG_MESSAGE;
-import static org.example.appcommon.utils.ApplicationConstant.COMMENT_NOT_FOUND_MESSAGE;
-import static org.example.appcommon.utils.ApplicationConstant.POST_NOT_FOUND_MESSAGE;
+import static org.example.appblog.utils.ApplicationConstant.COMMENT_DOES_NOT_BELONG_MESSAGE;
+import static org.example.appblog.utils.ApplicationConstant.COMMENT_NOT_FOUND_MESSAGE;
+import static org.example.appblog.utils.ApplicationConstant.POST_NOT_FOUND_MESSAGE;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.appblog.dtos.CommentDto;
 import org.example.appblog.entities.Comment;
 import org.example.appblog.entities.Post;
+import org.example.appblog.exceptions.BlogApiException;
+import org.example.appblog.exceptions.CommentNotFoundException;
+import org.example.appblog.exceptions.PostNotFoundException;
 import org.example.appblog.mappers.CommentMapper;
 import org.example.appblog.repositories.CommentRepository;
 import org.example.appblog.repositories.PostRepository;
 import org.example.appblog.services.CommentService;
-import org.example.appcommon.exceptions.BlogApiException;
-import org.example.appcommon.exceptions.CommentNotFoundException;
-import org.example.appcommon.exceptions.PostNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**

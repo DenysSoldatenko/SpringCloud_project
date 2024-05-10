@@ -11,7 +11,7 @@ import java.util.Date;
 import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.example.appcommon.exceptions.AuthException;
+import org.example.appgateway.exceptions.AuthException;
 import org.example.appgateway.jwt.common.VerificationResult;
 import reactor.core.publisher.Mono;
 

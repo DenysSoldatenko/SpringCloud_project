@@ -1,16 +1,17 @@
-package org.example.appgateway.services;
+package org.example.appgateway.services.impl;
 
 import static reactor.core.publisher.Mono.error;
 import static reactor.core.publisher.Mono.just;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.appcommon.exceptions.AuthException;
 import org.example.appgateway.dtos.AuthRequestDto;
 import org.example.appgateway.dtos.AuthResponseDto;
 import org.example.appgateway.dtos.RegisterRequestDto;
 import org.example.appgateway.entities.User;
+import org.example.appgateway.exceptions.AuthException;
 import org.example.appgateway.repositories.UserRepository;
+import org.example.appgateway.services.AuthService;
 import org.example.appgateway.utils.Pbkdf2Encoder;
 import org.example.appgateway.utils.ResponseFactory;
 import org.example.appgateway.utils.UserFactory;

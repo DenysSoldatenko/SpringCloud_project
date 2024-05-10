@@ -3,7 +3,7 @@ package org.example.appgateway.configurations;
 import static reactor.core.publisher.Mono.error;
 
 import lombok.RequiredArgsConstructor;
-import org.example.appcommon.exceptions.AuthException;
+import org.example.appgateway.exceptions.AuthException;
 import org.example.appgateway.jwt.common.CustomPrincipal;
 import org.example.appgateway.repositories.UserRepository;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;

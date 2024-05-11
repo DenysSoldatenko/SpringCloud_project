@@ -2,11 +2,12 @@ package org.example.appgateway.exceptions.errorhandling;
 
 import static java.lang.String.valueOf;
 import static java.util.stream.Collectors.joining;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.CONFLICT;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 import java.util.Date;
+
+import org.example.appgateway.exceptions.AuthException;
 import org.example.appgateway.exceptions.ConflictException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -21,6 +22,27 @@ import org.springframework.web.context.request.WebRequest;
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+  /**
+   * Handles the exception when a {@link AuthException} occurs.
+   *
+   * @param exception  the exception that was thrown.
+   * @param webRequest the web request where the exception occurred.
+   * @return a ResponseEntity containing details of the error response.
+   */
+  @ExceptionHandler(AuthException.class)
+  public ResponseEntity<ErrorDetails> handleAuthException(
+      AuthException exception, WebRequest webRequest
+  ) {
+    ErrorDetails errorDetails = new ErrorDetails(
+      new Date(),
+      valueOf(NOT_FOUND.value()),
+      NOT_FOUND.getReasonPhrase(),
+      exception.getMessage(),
+      webRequest.getDescription(false).substring(4)
+    );
+    return new ResponseEntity<>(errorDetails, NOT_FOUND);
+  }
 
   /**
    * Handles the exception when a {@link ConflictException} occurs.

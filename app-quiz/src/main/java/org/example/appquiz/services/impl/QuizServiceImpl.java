@@ -1,21 +1,21 @@
 package org.example.appquiz.services.impl;
 
 import static java.util.stream.IntStream.range;
-import static org.example.appcommon.utils.ApplicationConstant.CONGRATULATIONS_MESSAGE;
-import static org.example.appcommon.utils.ApplicationConstant.QUIZ_NOT_FOUND_MESSAGE;
-import static org.example.appcommon.utils.ApplicationConstant.TRY_AGAIN_MESSAGE;
+import static org.example.appquiz.utils.ApplicationConstant.CONGRATULATIONS_MESSAGE;
+import static org.example.appquiz.utils.ApplicationConstant.QUIZ_NOT_FOUND_MESSAGE;
+import static org.example.appquiz.utils.ApplicationConstant.TRY_AGAIN_MESSAGE;
 import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.example.appcommon.exceptions.QuizNotFoundException;
 import org.example.appquiz.dtos.AnswerDto;
 import org.example.appquiz.dtos.QuestionDto;
 import org.example.appquiz.dtos.QuizDto;
 import org.example.appquiz.dtos.ResultDto;
 import org.example.appquiz.entities.Quiz;
+import org.example.appquiz.exceptions.QuizNotFoundException;
 import org.example.appquiz.mappers.QuestionMapper;
 import org.example.appquiz.mappers.QuizMapper;
 import org.example.appquiz.repositories.QuizRepository;

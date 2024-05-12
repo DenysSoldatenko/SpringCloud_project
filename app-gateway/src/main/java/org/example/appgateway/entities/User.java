@@ -33,7 +33,6 @@ public class User {
 
   private Role role;
 
-
   @ToString.Include(name = "password")
   private String maskPassword() {
     return "********";

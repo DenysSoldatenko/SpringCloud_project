@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.appblog.dtos.PostDto;
 import org.example.appblog.entities.Post;
 import org.example.appblog.exceptions.PostNotFoundException;
+import org.example.appblog.initializers.PostDataInitializer;
 import org.example.appblog.mappers.PostMapper;
 import org.example.appblog.repositories.PostRepository;
 import org.example.appblog.services.PostService;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 public class PostServiceImpl implements PostService {
 
   private final PostRepository postRepository;
+  private final PostDataInitializer postDataInitializer;
   private final PostMapper postMapper;
 
   @Override
@@ -67,5 +69,10 @@ public class PostServiceImpl implements PostService {
     Post post = postRepository.findById(id)
         .orElseThrow(() -> new PostNotFoundException(POST_NOT_FOUND_MESSAGE + id));
     postRepository.delete(post);
+  }
+
+  @Override
+  public String initializeData() {
+    return postDataInitializer.initData();
   }
 }

@@ -1,5 +1,6 @@
 package org.example.appblog.controllers;
 
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -15,7 +16,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.appblog.dtos.PostDto;
 import org.example.appblog.services.PostService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +39,20 @@ public class PostController {
 
   private final PostService postService;
 
+  @Operation(summary = "Initialize blog data")
+  @ApiResponses(value = {
+    @ApiResponse(responseCode = "201", description = "Data initialized successfully",
+      content = {
+        @Content(mediaType = "application/text",
+          schema = @Schema(type = "string", example = "Data initialization completed successfully!"))
+      }),
+    @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+  })
+  @PostMapping("/initialize")
+  public ResponseEntity<String> initializeData() {
+    return new ResponseEntity<>(postService.initializeData(), CREATED);
+  }
+
   @Operation(summary = "Create a new blog post")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "201", description = "Post created successfully",
@@ -53,7 +67,7 @@ public class PostController {
   })
   @PostMapping
   public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto) {
-    return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
+    return new ResponseEntity<>(postService.createPost(postDto), CREATED);
   }
 
   @Operation(summary = "Get all blog posts")

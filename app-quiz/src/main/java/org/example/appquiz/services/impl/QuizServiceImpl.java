@@ -16,6 +16,7 @@ import org.example.appquiz.dtos.QuizDto;
 import org.example.appquiz.dtos.ResultDto;
 import org.example.appquiz.entities.Quiz;
 import org.example.appquiz.exceptions.QuizNotFoundException;
+import org.example.appquiz.initializers.QuizDataInitializer;
 import org.example.appquiz.mappers.QuestionMapper;
 import org.example.appquiz.mappers.QuizMapper;
 import org.example.appquiz.repositories.QuizRepository;
@@ -35,6 +36,7 @@ public class QuizServiceImpl implements QuizService {
   private final QuizRepository quizRepository;
   private final QuizMapper quizMapper;
   private final QuestionMapper questionMapper;
+  private final QuizDataInitializer quizDataInitializer;
 
   @Override
   public QuizDto createQuiz(QuizDto quizDto) {
@@ -108,5 +110,10 @@ public class QuizServiceImpl implements QuizService {
     String message = correctCount == totalQuestions ? CONGRATULATIONS_MESSAGE : TRY_AGAIN_MESSAGE;
 
     return new ResultDto(message, correctAnswers, incorrectAnswers, totalQuestions, correctCount);
+  }
+
+  @Override
+  public String initializeData() {
+    return quizDataInitializer.initData();
   }
 }

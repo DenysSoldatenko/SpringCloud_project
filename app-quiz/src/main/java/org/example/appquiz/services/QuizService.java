@@ -20,4 +20,6 @@ public interface QuizService {
   void deleteQuizById(String id);
 
   ResultDto validateAnswers(AnswerDto answerDto, String id);
+
+  String initializeData();
 }

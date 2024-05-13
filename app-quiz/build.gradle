@@ -25,6 +25,7 @@ dependencies {
     implementation "org.springframework.cloud:spring-cloud-starter-config:${springCloudConfigVersion}"
 
     implementation "org.mapstruct:mapstruct:${mapStructVersion}"
+    implementation "net.datafaker:datafaker:${dataFakerVersion}"
 
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${springDocWebVersion}"){
         exclude group: "io.swagger.core.v3", module:"swagger-annotations"

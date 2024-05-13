@@ -42,6 +42,20 @@ public class QuizController {
 
   private final QuizService quizService;
 
+  @Operation(summary = "Initialize quiz data")
+  @ApiResponses(value = {
+    @ApiResponse(responseCode = "201", description = "Data initialized successfully",
+      content = {
+        @Content(mediaType = "application/text",
+          schema = @Schema(type = "string", example = "Data initialization completed successfully!"))
+      }),
+    @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+  })
+  @PostMapping("/initialize")
+  public ResponseEntity<String> initializeData() {
+    return new ResponseEntity<>(quizService.initializeData(), CREATED);
+  }
+
   @Operation(summary = "Create a new quiz")
   @ApiResponses(value = {
     @ApiResponse(responseCode = "201", description = "Quiz created successfully",

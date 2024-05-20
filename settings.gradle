@@ -2,5 +2,5 @@ rootProject.name = 'SpringCloud_project'
 
 includeBuild('post-service')
 includeBuild('app-gateway')
-includeBuild('app-quiz')
+includeBuild('quiz-service')
 includeBuild('eureka-server')

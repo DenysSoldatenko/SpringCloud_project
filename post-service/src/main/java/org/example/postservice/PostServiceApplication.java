@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
- * Main application class for the blog module.
+ * Main application class for the Post Service.
  */
 @EnableDiscoveryClient
 @SpringBootApplication

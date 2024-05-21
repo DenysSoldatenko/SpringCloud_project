@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: app-blog
+    name: post-service
   datasource:
     url: jdbc:postgresql://${SPRING_DATASOURCE_HOST:localhost}:5432/example_database?currentSchema=media_hub
     username: postgres

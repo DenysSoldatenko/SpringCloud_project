@@ -1,9 +1,11 @@
 package org.example.postservice.initializers;
 
 import static java.util.stream.IntStream.range;
+import static org.example.postservice.utils.ApplicationConstant.DATA_INITIALIZATION_FAIL_MESSAGE;
 import static org.example.postservice.utils.ApplicationConstant.DATA_INITIALIZATION_SUCCESS_MESSAGE;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.postservice.entities.Post;
@@ -29,6 +31,7 @@ public class PostDataInitializer {
   public String initData() {
     int batchSize = 10;
     int totalPosts = 100;
+    AtomicBoolean hasErrors = new AtomicBoolean(false);
 
     log.info("Starting post data initialization...");
 
@@ -41,11 +44,16 @@ public class PostDataInitializer {
             log.info("Post batch {} inserted successfully.", batchIndex);
           } catch (Exception e) {
             log.error("Error in post batch {}: {}", batchIndex, e.getMessage(), e);
+            hasErrors.set(true);
           }
         });
 
-    log.info("Post data initialization completed successfully.");
-
-    return DATA_INITIALIZATION_SUCCESS_MESSAGE;
+    if (hasErrors.get()) {
+      log.warn("Post data initialization completed with errors.");
+      return DATA_INITIALIZATION_FAIL_MESSAGE;
+    } else {
+      log.info("Post data initialization completed successfully.");
+      return DATA_INITIALIZATION_SUCCESS_MESSAGE;
+    }
   }
 }

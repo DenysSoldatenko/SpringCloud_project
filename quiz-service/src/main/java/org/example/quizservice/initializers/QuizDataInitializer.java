@@ -1,9 +1,11 @@
 package org.example.quizservice.initializers;
 
 import static java.util.stream.IntStream.range;
+import static org.example.quizservice.utils.ApplicationConstant.DATA_INITIALIZATION_FAIL_MESSAGE;
 import static org.example.quizservice.utils.ApplicationConstant.DATA_INITIALIZATION_SUCCESS_MESSAGE;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.quizservice.entities.Quiz;
@@ -29,6 +31,7 @@ public class QuizDataInitializer {
   public String initData() {
     int batchSize = 10;
     int totalRecords = 100;
+    AtomicBoolean hasErrors = new AtomicBoolean(false);
 
     log.info("Starting quiz data initialization...");
 
@@ -41,11 +44,16 @@ public class QuizDataInitializer {
             log.info("Quiz batch {} inserted successfully.", batchIndex);
           } catch (Exception e) {
             log.error("Error in quiz batch {}: {}", batchIndex, e.getMessage(), e);
+            hasErrors.set(true);
           }
         });
 
-    log.info("Quiz data initialization completed successfully.");
-
-    return DATA_INITIALIZATION_SUCCESS_MESSAGE;
+    if (hasErrors.get()) {
+      log.warn("Quiz data initialization completed with errors.");
+      return DATA_INITIALIZATION_FAIL_MESSAGE;
+    } else {
+      log.info("Quiz data initialization completed successfully.");
+      return DATA_INITIALIZATION_SUCCESS_MESSAGE;
+    }
   }
 }

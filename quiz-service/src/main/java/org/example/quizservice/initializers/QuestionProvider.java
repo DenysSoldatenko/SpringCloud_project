@@ -1,10 +1,12 @@
 package org.example.quizservice.initializers;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.nio.file.Files.readString;
 import static org.springframework.util.StreamUtils.copyToString;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +40,10 @@ public class QuestionProvider {
 
   private String loadJsonDataFromFile() throws IOException {
     ClassPathResource resource = new ClassPathResource("questions.json");
+    if (!resource.exists()) {
+      File file = new File("/app/questions.json");
+      return readString(file.toPath());
+    }
     return copyToString(resource.getInputStream(), UTF_8);
   }
 }

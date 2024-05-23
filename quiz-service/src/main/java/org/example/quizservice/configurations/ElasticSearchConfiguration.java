@@ -6,6 +6,7 @@ import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -20,9 +21,12 @@ import org.springframework.web.client.RestTemplate;
 @ComponentScan(basePackages = {"org.example.quizservice.services"})
 public class ElasticSearchConfiguration {
 
+  @Value("${quiz-service.elasticsearch.host}")
+  private String host;
+
   @Bean
   public RestClient getRestClient() {
-    return RestClient.builder(new HttpHost("localhost", 9200)).build();
+    return RestClient.builder(new HttpHost(host, 9200)).build();
   }
 
   @Bean

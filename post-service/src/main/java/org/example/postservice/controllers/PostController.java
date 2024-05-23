@@ -39,7 +39,7 @@ public class PostController {
 
   private final PostService postService;
 
-  @Operation(summary = "Initialize blog data")
+  @Operation(summary = "Initialize post data")
   @ApiResponses(value = {
     @ApiResponse(responseCode = "201", description = "Data initialized successfully",
       content = {

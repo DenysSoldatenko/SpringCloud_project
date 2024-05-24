@@ -1,0 +1,108 @@
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  elasticsearch_data:
+    driver: local
+
+services:
+  eureka-server:
+    build: ./eureka-server
+    container_name: eureka-server
+    networks:
+      - app-network
+    ports:
+      - "8761:8761"
+    environment:
+      EUREKA_SERVER_HOST: ${EUREKA_SERVER_HOST}
+
+  post-service:
+    build: ./post-service
+    container_name: post-service
+    networks:
+      - app-network
+    depends_on:
+      - postgres
+      - eureka-server
+      - gateway-service
+    env_file:
+      - .env
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_HOST: ${POST_SERVICE_DATASOURCE_HOST}
+      EUREKA_SERVER_HOST: ${EUREKA_SERVER_HOST}
+
+  gateway-service:
+    build: ./gateway-service
+    container_name: gateway-service
+    networks:
+      - app-network
+    depends_on:
+      - postgres
+      - eureka-server
+    env_file:
+      - .env
+    ports:
+      - "8765:8765"
+    environment:
+      SPRING_DATASOURCE_HOST: ${GATEWAY_SERVICE_DATASOURCE_HOST}
+      EUREKA_SERVER_HOST: ${EUREKA_SERVER_HOST}
+
+  quiz-service:
+    build: ./quiz-service
+    container_name: quiz-service
+    networks:
+      - app-network
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+      gateway-service:
+        condition: service_started
+    ports:
+      - "8085:8085"
+    environment:
+      SPRING_DATASOURCE_HOST: ${QUIZ_SERVICE_DATASOURCE_HOST}
+      EUREKA_SERVER_HOST: ${EUREKA_SERVER_HOST}
+
+  postgres:
+    image: postgres:15.1-alpine
+    container_name: postgres
+    networks:
+      - app-network
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${DATASOURCE_PASSWORD}
+      POSTGRES_DB: ${DATASOURCE_DATABASE}
+    volumes:
+      - ./gateway-service/src/main/resources/init-database.sql:/docker-entrypoint-initdb.d/init-database.sql
+      - postgres_data:/var/lib/postgresql/data
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.0.0
+    container_name: elasticsearch
+    networks:
+      - app-network
+    ports:
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://elasticsearch:9200 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s

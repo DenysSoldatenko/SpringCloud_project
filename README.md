@@ -1,16 +1,25 @@
-# SpringCloud_project: Build a Blog & Quiz Platform
-This project uses Spring Cloud to create a dynamic platform for blog posts and quizzes.
+# SpringCloud_project: Build a Post & Quiz Platform
 
-### **Key Features:**
-- **Modular Design:** Composed of independent modules for blog, quizzes, common functionality, API gateway, and configuration management.
-- **Spring Cloud Integration:** Leverages Eureka for service discovery and GitHub for centralized configuration.
-- **Data Generator:** Provides a tool for populating your platform with test data.
+This project uses Spring Cloud to create a dynamic platform for managing blog posts and quizzes.
 
-### **Module Breakdown:**
-- **app-blog:** Houses the blog functionality, including creating, managing, and commenting on posts.
-- **app-common:** Contains shared components used across different modules.
-- **app-gateway:** Acts as the central entry point, routing requests to the appropriate microservices.
-- **app-quiz:** Implements quiz creation, taking, and evaluation features.
-- **data-generator:** Generates mock data for testing purposes.
-- **eureka-server:** Enables service discovery for microservices to interact with each other.
-- **github-config-server:** Stores and manages configuration files hosted on GitHub.
+## Key Features:
+- **Modular Architecture:** Independent modules for posts and quizzes management.
+- **Service Discovery:** Uses Eureka for seamless microservice interaction.
+- **Data Generation:** Tools for populating test data within both post and quiz modules.
+- **Security:** JWT authentication integrated across services.
+- **Elasticsearch Integration:** Enables fast search capabilities within the quiz module.
+
+## Module Overview:
+- **post-service:** Blog post creation, management, and commenting functionalities.
+- **quiz-service:** Quiz creation, attempt management, and evaluation.
+- **gateway-service:** API gateway for routing requests to the appropriate microservices.
+- **eureka-server:** Handles service discovery.
+
+## Swagger URLs:
+- **Post Service:** [http://localhost:8081/swagger-ui/index.html](http://localhost:8081/swagger-ui/index.html)
+- **Quiz Service:** [http://localhost:8085/swagger-ui/index.html](http://localhost:8085/swagger-ui/index.html)
+- **Gateway Service:** [http://localhost:8765/webjars/swagger-ui/index.html](http://localhost:8765/webjars/swagger-ui/index.html)
+
+---
+
+> **Note:** Ensure all services are running before accessing the Swagger documentation links.
